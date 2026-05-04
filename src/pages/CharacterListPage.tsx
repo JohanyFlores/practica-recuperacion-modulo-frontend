@@ -17,41 +17,30 @@ export const CharacterListPage = () => {
   // Estado local para el input (no actualiza URL inmediatamente)
   const [searchInput, setSearchInput] = useState(nameFilter || '');
   const searchInputRef = useRef<HTMLInputElement>(null);
-  const isTypingRef = useRef(false);
 
   // Sincronizar searchInput cuando nameFilter cambie externamente (navegación, etc)
   useEffect(() => {
-    if (!isTypingRef.current) {
-      setSearchInput(nameFilter || '');
-    }
+    setSearchInput(nameFilter || '');
   }, [nameFilter]);
 
-  // Mantener foco si el usuario está escribiendo
-  useEffect(() => {
-    if (isTypingRef.current && searchInputRef.current && document.activeElement !== searchInputRef.current) {
-      searchInputRef.current.focus();
+  // Función para ejecutar búsqueda (botón o Enter)
+  const handleSearch = () => {
+    const newParams = new URLSearchParams(searchParams);
+    if (searchInput.trim()) {
+      newParams.set('name', searchInput.trim());
+      newParams.set('page', '1');
+    } else {
+      newParams.delete('name');
     }
-  });
+    setSearchParams(newParams, { replace: true });
+  };
 
-  // Debounce: actualizar URL solo después de 500ms sin escribir
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      const newParams = new URLSearchParams(searchParams);
-      if (searchInput) {
-        newParams.set('name', searchInput);
-        newParams.set('page', '1');
-      } else {
-        newParams.delete('name');
-      }
-      // Usar replace: true para evitar PortalTransition
-      setSearchParams(newParams, { replace: true });
-      
-      // Usuario dejó de escribir
-      isTypingRef.current = false;
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, [searchInput]); // Solo se ejecuta cuando searchInput cambia
+  // Buscar al presionar Enter
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
 
   // Usar los filtros directamente en la API (incluyendo búsqueda por nombre)
   const { data, loading, error } = useCharacters({
@@ -99,40 +88,25 @@ export const CharacterListPage = () => {
         )}
       </div>
 
-      {/* Barra de búsqueda simple */}
+      {/* Barra de búsqueda con botón */}
       <div style={{
         marginBottom: '2rem',
         width: '100%',
         maxWidth: '600px',
         margin: '0 auto 2rem',
-        position: 'relative'
+        position: 'relative',
+        display: 'flex',
+        gap: '0.75rem'
       }}>
         <input
           ref={searchInputRef}
           type="text"
           placeholder="🔍 Buscar personaje..."
           value={searchInput}
-          onChange={(e) => {
-            isTypingRef.current = true;
-            setSearchInput(e.target.value);
-          }}
-          onFocus={(e) => {
-            isTypingRef.current = true;
-            e.target.style.borderColor = '#22c55e';
-            e.target.style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.3)';
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = 'rgba(34, 197, 94, 0.3)';
-            e.target.style.boxShadow = 'none';
-            // Solo marcar como no escribiendo si realmente perdió el foco
-            setTimeout(() => {
-              if (document.activeElement !== searchInputRef.current) {
-                isTypingRef.current = false;
-              }
-            }, 100);
-          }}
+          onChange={(e) => setSearchInput(e.target.value)}
+          onKeyPress={handleKeyPress}
           style={{
-            width: '100%',
+            flex: 1,
             padding: '1rem 1.5rem',
             fontSize: '1rem',
             background: 'rgba(30, 27, 75, 0.5)',
@@ -143,11 +117,45 @@ export const CharacterListPage = () => {
             transition: 'all 0.3s ease',
             backdropFilter: 'blur(10px)'
           }}
+          onFocus={(e) => {
+            e.target.style.borderColor = '#22c55e';
+            e.target.style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.3)';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'rgba(34, 197, 94, 0.3)';
+            e.target.style.boxShadow = 'none';
+          }}
         />
+        <button
+          onClick={handleSearch}
+          style={{
+            padding: '1rem 2rem',
+            fontSize: '1rem',
+            fontWeight: 600,
+            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+            border: 'none',
+            borderRadius: '12px',
+            color: 'white',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
+            whiteSpace: 'nowrap'
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translateY(-2px)';
+            e.currentTarget.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translateY(0)';
+            e.currentTarget.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)';
+          }}
+        >
+          Buscar
+        </button>
         {loading && (
           <div style={{
             position: 'absolute',
-            right: '1.5rem',
+            right: 'calc(2rem + 120px)', // Ajustado para el botón
             top: '50%',
             transform: 'translateY(-50%)',
             color: '#22c55e',
