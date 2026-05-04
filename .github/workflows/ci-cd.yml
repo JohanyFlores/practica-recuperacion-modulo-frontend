@@ -32,27 +32,22 @@ jobs:
       - name: 🔧 Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
           cache: 'npm'
 
       # 3. Instalar dependencias
       - name: 📦 Install dependencies
         run: npm ci
 
-      # 4. Ejecutar linter (opcional)
-      - name: 🔍 Run ESLint
-        run: npm run lint
-        continue-on-error: true
-
-      # 5. Ejecutar tests
+      # 4. Ejecutar tests
       - name: 🧪 Run tests
         run: npm test
 
-      # 6. Build del proyecto
+      # 5. Build del proyecto
       - name: 🏗️ Build project
         run: npm run build
 
-      # 7. Subir artifacts del build
+      # 6. Subir artifacts del build
       - name: 📤 Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
