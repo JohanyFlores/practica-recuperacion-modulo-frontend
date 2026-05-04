@@ -1,5 +1,4 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useState, useMemo } from 'react';
 import { useCharacters } from '../hooks/useCharacters';
 import { CharacterCard } from '../components/CharacterCard.tsx';
 import { SkeletonCard } from '../components/SkeletonCard';
@@ -12,26 +11,27 @@ export const CharacterListPage = () => {
   const statusFilter = searchParams.get('status') || undefined;
   const speciesFilter = searchParams.get('species') || undefined;
   const genderFilter = searchParams.get('gender') || undefined;
-  const [searchTerm, setSearchTerm] = useState('');
+  const nameFilter = searchParams.get('name') || undefined;
 
-  // Usar los filtros directamente en la API
+  // Usar los filtros directamente en la API (incluyendo búsqueda por nombre)
   const { data, loading, error } = useCharacters({
     page,
     status: statusFilter,
     species: speciesFilter,
-    gender: genderFilter
+    gender: genderFilter,
+    name: nameFilter
   });
 
-  // Filtrar por nombre localmente (búsqueda instantánea sin llamar API en cada tecla)
-  const filteredCharacters = useMemo(() => {
-    if (!data?.results) return [];
-    
-    if (!searchTerm) return data.results;
-    
-    return data.results.filter(character =>
-      character.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [data?.results, searchTerm]);
+  const handleSearch = (value: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (value) {
+      newParams.set('name', value);
+      newParams.set('page', '1'); // Resetear a página 1 cuando se busca
+    } else {
+      newParams.delete('name');
+    }
+    setSearchParams(newParams);
+  };
 
   if (loading) {
     return (
@@ -80,8 +80,8 @@ export const CharacterListPage = () => {
         <input
           type="text"
           placeholder="🔍 Buscar personaje..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={nameFilter || ''}
+          onChange={(e) => handleSearch(e.target.value)}
           style={{
             width: '100%',
             padding: '1rem 1.5rem',
@@ -106,7 +106,7 @@ export const CharacterListPage = () => {
       </div>
 
       {/* Indicador de filtros activos */}
-      {(statusFilter || speciesFilter || genderFilter) && (
+      {(statusFilter || speciesFilter || genderFilter || nameFilter) && (
         <div style={{
           display: 'flex',
           gap: '0.75rem',
@@ -115,6 +115,18 @@ export const CharacterListPage = () => {
           alignItems: 'center'
         }}>
           <span style={{ color: '#22c55e', fontWeight: 600 }}>Filtros activos:</span>
+          {nameFilter && (
+            <span style={{
+              padding: '0.5rem 1rem',
+              background: 'rgba(34, 197, 94, 0.2)',
+              border: '1px solid #22c55e',
+              borderRadius: '20px',
+              color: 'white',
+              fontSize: '0.9rem'
+            }}>
+              Búsqueda: {nameFilter}
+            </span>
+          )}
           {statusFilter && (
             <span style={{
               padding: '0.5rem 1rem',
@@ -172,7 +184,7 @@ export const CharacterListPage = () => {
       )}
 
       <div className="characters-grid">
-        {filteredCharacters.length === 0 ? (
+        {!data?.results || data.results.length === 0 ? (
           <div style={{
             gridColumn: '1 / -1',
             textAlign: 'center',
@@ -186,7 +198,7 @@ export const CharacterListPage = () => {
             </p>
           </div>
         ) : (
-          filteredCharacters.map((character) => (
+          data.results.map((character) => (
             <CharacterCard
               key={character.id}
               character={character}
