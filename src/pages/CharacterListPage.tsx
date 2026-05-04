@@ -63,9 +63,9 @@ export const CharacterListPage = () => {
       <div className="page-header">
         <h2>Directorio Interdimensional</h2>
         <p>Explora todos los personajes del multiverso</p>
-        {filteredCharacters.length > 0 && (
+        {data?.info?.count && (
           <p style={{ color: '#22c55e', marginTop: '0.5rem', fontWeight: 600 }}>
-            {filteredCharacters.length} personaje{filteredCharacters.length !== 1 ? 's' : ''} encontrado{filteredCharacters.length !== 1 ? 's' : ''}
+            {data.info.count} personaje{data.info.count !== 1 ? 's' : ''} encontrado{data.info.count !== 1 ? 's' : ''}
           </p>
         )}
       </div>
