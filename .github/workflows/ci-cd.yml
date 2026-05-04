@@ -41,7 +41,7 @@ jobs:
 
       # 4. Ejecutar tests
       - name: 🧪 Run tests
-        run: npm test
+        run: npm run test -- --run
 
       # 5. Build del proyecto
       - name: 🏗️ Build project
