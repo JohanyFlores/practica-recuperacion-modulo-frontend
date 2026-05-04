@@ -17,11 +17,21 @@ export const CharacterListPage = () => {
   // Estado local para el input (no actualiza URL inmediatamente)
   const [searchInput, setSearchInput] = useState(nameFilter || '');
   const searchInputRef = useRef<HTMLInputElement>(null);
+  const isTypingRef = useRef(false);
 
   // Sincronizar searchInput cuando nameFilter cambie externamente (navegación, etc)
   useEffect(() => {
-    setSearchInput(nameFilter || '');
+    if (!isTypingRef.current) {
+      setSearchInput(nameFilter || '');
+    }
   }, [nameFilter]);
+
+  // Mantener foco si el usuario está escribiendo
+  useEffect(() => {
+    if (isTypingRef.current && searchInputRef.current && document.activeElement !== searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  });
 
   // Debounce: actualizar URL solo después de 500ms sin escribir
   useEffect(() => {
@@ -36,10 +46,8 @@ export const CharacterListPage = () => {
       // Usar replace: true para evitar PortalTransition
       setSearchParams(newParams, { replace: true });
       
-      // Mantener foco en el input después de actualizar
-      setTimeout(() => {
-        searchInputRef.current?.focus();
-      }, 0);
+      // Usuario dejó de escribir
+      isTypingRef.current = false;
     }, 500);
 
     return () => clearTimeout(timer);
@@ -104,7 +112,25 @@ export const CharacterListPage = () => {
           type="text"
           placeholder="🔍 Buscar personaje..."
           value={searchInput}
-          onChange={(e) => setSearchInput(e.target.value)}
+          onChange={(e) => {
+            isTypingRef.current = true;
+            setSearchInput(e.target.value);
+          }}
+          onFocus={(e) => {
+            isTypingRef.current = true;
+            e.target.style.borderColor = '#22c55e';
+            e.target.style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.3)';
+          }}
+          onBlur={(e) => {
+            e.target.style.borderColor = 'rgba(34, 197, 94, 0.3)';
+            e.target.style.boxShadow = 'none';
+            // Solo marcar como no escribiendo si realmente perdió el foco
+            setTimeout(() => {
+              if (document.activeElement !== searchInputRef.current) {
+                isTypingRef.current = false;
+              }
+            }, 100);
+          }}
           style={{
             width: '100%',
             padding: '1rem 1.5rem',
@@ -116,14 +142,6 @@ export const CharacterListPage = () => {
             outline: 'none',
             transition: 'all 0.3s ease',
             backdropFilter: 'blur(10px)'
-          }}
-          onFocus={(e) => {
-            e.target.style.borderColor = '#22c55e';
-            e.target.style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.3)';
-          }}
-          onBlur={(e) => {
-            e.target.style.borderColor = 'rgba(34, 197, 94, 0.3)';
-            e.target.style.boxShadow = 'none';
           }}
         />
         {loading && (
