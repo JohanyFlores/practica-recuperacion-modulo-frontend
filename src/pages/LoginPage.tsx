@@ -1,7 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
-import NaveRickGif from '/Nave_Rick.gif';
 import './LoginPage.css';
 
 export const LoginPage = () => {
@@ -31,7 +30,7 @@ export const LoginPage = () => {
     <div className="login-page">
       {/* Nave de Rick moviéndose */}
       <div className="floating-ship">
-        <img src={NaveRickGif} alt="Rick's ship" />
+        <img src={`${import.meta.env.BASE_URL}Nave_Rick.gif`} alt="Rick's ship" />
       </div>
 
       <div className="login-container">
