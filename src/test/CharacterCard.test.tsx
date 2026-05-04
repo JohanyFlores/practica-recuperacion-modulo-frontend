@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { CharacterCard } from '../components/CharacterCard';
 import type { Character } from '../types';
 
@@ -67,7 +67,7 @@ describe('CharacterCard', () => {
     render(<CharacterCard character={mockCharacter} onClick={handleClick} />);
     
     const card = screen.getByText('Rick Sanchez').closest('.character-card');
-    card?.click();
+    if (card) fireEvent.click(card);
     
     expect(handleClick).toHaveBeenCalledTimes(1);
   });
