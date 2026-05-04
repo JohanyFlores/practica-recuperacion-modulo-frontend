@@ -1,0 +1,199 @@
+.portal-transition {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  animation: fadeInOut 0.5s ease-in-out;
+  pointer-events: none;
+  backdrop-filter: blur(8px);
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.portal-container {
+  position: relative;
+  width: 400px;
+  height: 400px;
+  animation: portalPulse 0.5s ease-in-out;
+}
+
+@keyframes portalPulse {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2) rotate(180deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.portal-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border-style: solid;
+  animation: rotateRing 0.5s linear infinite;
+}
+
+.portal-ring-1 {
+  width: 300px;
+  height: 300px;
+  border: 8px solid transparent;
+  border-top-color: #00ff88;
+  border-bottom-color: #00ff88;
+  animation-duration: 0.4s;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.8),
+              inset 0 0 30px rgba(0, 255, 136, 0.5);
+}
+
+.portal-ring-2 {
+  width: 220px;
+  height: 220px;
+  border: 6px solid transparent;
+  border-left-color: #39ff14;
+  border-right-color: #39ff14;
+  animation-duration: 0.5s;
+  animation-direction: reverse;
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.7),
+              inset 0 0 25px rgba(57, 255, 20, 0.4);
+}
+
+.portal-ring-3 {
+  width: 150px;
+  height: 150px;
+  border: 4px solid transparent;
+  border-top-color: #7fff00;
+  border-bottom-color: #7fff00;
+  animation-duration: 0.3s;
+  box-shadow: 0 0 20px rgba(127, 255, 0, 0.6),
+              inset 0 0 20px rgba(127, 255, 0, 0.3);
+}
+
+@keyframes rotateRing {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.portal-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, 
+    rgba(0, 255, 136, 0.9) 0%, 
+    rgba(57, 255, 20, 0.6) 50%, 
+    rgba(0, 255, 136, 0.3) 100%);
+  border-radius: 50%;
+  animation: portalGlow 0.25s ease-in-out infinite alternate;
+  box-shadow: 0 0 60px rgba(0, 255, 136, 0.9),
+              0 0 100px rgba(57, 255, 20, 0.6),
+              inset 0 0 40px rgba(0, 255, 136, 0.8);
+}
+
+@keyframes portalGlow {
+  from {
+    box-shadow: 0 0 60px rgba(0, 255, 136, 0.9),
+                0 0 100px rgba(57, 255, 20, 0.6),
+                inset 0 0 40px rgba(0, 255, 136, 0.8);
+  }
+  to {
+    box-shadow: 0 0 80px rgba(0, 255, 136, 1),
+                0 0 120px rgba(57, 255, 20, 0.8),
+                inset 0 0 50px rgba(0, 255, 136, 1);
+  }
+}
+
+.portal-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #00ff88;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+  transform: rotate(var(--angle)) translate(180px);
+  animation: particleFloat 0.5s ease-in-out var(--delay) infinite;
+  box-shadow: 0 0 10px rgba(0, 255, 136, 0.8),
+              0 0 20px rgba(0, 255, 136, 0.5);
+  opacity: 0;
+}
+
+@keyframes particleFloat {
+  0% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translate(180px) scale(0);
+  }
+  50% {
+    opacity: 1;
+    transform: rotate(var(--angle)) translate(120px) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--angle)) translate(50px) scale(0.5);
+  }
+}
+
+/* Efecto de distorsión en el fondo */
+.portal-transition::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, 
+    rgba(0, 255, 136, 0.15) 0%, 
+    transparent 70%);
+  animation: distortionWave 0.5s ease-in-out;
+  border-radius: 50%;
+}
+
+@keyframes distortionWave {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,284 @@
+.portal-loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.portal-loader {
+  position: relative;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Tamaños del portal */
+.portal-loader-small {
+  width: 80px;
+  height: 80px;
+}
+
+.portal-loader-medium {
+  width: 150px;
+  height: 150px;
+}
+
+.portal-loader-large {
+  width: 250px;
+  height: 250px;
+}
+
+.portal-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  border-style: solid;
+  animation: rotateRing 1.5s linear infinite;
+}
+
+/* Anillos para tamaño small */
+.portal-loader-small .portal-ring-1 {
+  width: 70px;
+  height: 70px;
+  border: 4px solid transparent;
+  border-top-color: #00ff88;
+  border-bottom-color: #00ff88;
+  animation-duration: 1s;
+  box-shadow: 0 0 15px rgba(0, 255, 136, 0.8),
+              inset 0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+.portal-loader-small .portal-ring-2 {
+  width: 50px;
+  height: 50px;
+  border: 3px solid transparent;
+  border-left-color: #39ff14;
+  border-right-color: #39ff14;
+  animation-duration: 1.3s;
+  animation-direction: reverse;
+  box-shadow: 0 0 12px rgba(57, 255, 20, 0.7),
+              inset 0 0 12px rgba(57, 255, 20, 0.4);
+}
+
+.portal-loader-small .portal-ring-3 {
+  width: 35px;
+  height: 35px;
+  border: 2px solid transparent;
+  border-top-color: #7fff00;
+  border-bottom-color: #7fff00;
+  animation-duration: 0.8s;
+  box-shadow: 0 0 10px rgba(127, 255, 0, 0.6),
+              inset 0 0 10px rgba(127, 255, 0, 0.3);
+}
+
+.portal-loader-small .portal-center {
+  width: 20px;
+  height: 20px;
+}
+
+/* Anillos para tamaño medium */
+.portal-loader-medium .portal-ring-1 {
+  width: 130px;
+  height: 130px;
+  border: 6px solid transparent;
+  border-top-color: #00ff88;
+  border-bottom-color: #00ff88;
+  animation-duration: 1s;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.8),
+              inset 0 0 20px rgba(0, 255, 136, 0.5);
+}
+
+.portal-loader-medium .portal-ring-2 {
+  width: 95px;
+  height: 95px;
+  border: 5px solid transparent;
+  border-left-color: #39ff14;
+  border-right-color: #39ff14;
+  animation-duration: 1.3s;
+  animation-direction: reverse;
+  box-shadow: 0 0 18px rgba(57, 255, 20, 0.7),
+              inset 0 0 18px rgba(57, 255, 20, 0.4);
+}
+
+.portal-loader-medium .portal-ring-3 {
+  width: 65px;
+  height: 65px;
+  border: 4px solid transparent;
+  border-top-color: #7fff00;
+  border-bottom-color: #7fff00;
+  animation-duration: 0.8s;
+  box-shadow: 0 0 15px rgba(127, 255, 0, 0.6),
+              inset 0 0 15px rgba(127, 255, 0, 0.3);
+}
+
+.portal-loader-medium .portal-center {
+  width: 40px;
+  height: 40px;
+}
+
+/* Anillos para tamaño large */
+.portal-loader-large .portal-ring-1 {
+  width: 220px;
+  height: 220px;
+  border: 8px solid transparent;
+  border-top-color: #00ff88;
+  border-bottom-color: #00ff88;
+  animation-duration: 1s;
+  box-shadow: 0 0 30px rgba(0, 255, 136, 0.8),
+              inset 0 0 30px rgba(0, 255, 136, 0.5);
+}
+
+.portal-loader-large .portal-ring-2 {
+  width: 160px;
+  height: 160px;
+  border: 6px solid transparent;
+  border-left-color: #39ff14;
+  border-right-color: #39ff14;
+  animation-duration: 1.3s;
+  animation-direction: reverse;
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.7),
+              inset 0 0 25px rgba(57, 255, 20, 0.4);
+}
+
+.portal-loader-large .portal-ring-3 {
+  width: 110px;
+  height: 110px;
+  border: 5px solid transparent;
+  border-top-color: #7fff00;
+  border-bottom-color: #7fff00;
+  animation-duration: 0.8s;
+  box-shadow: 0 0 20px rgba(127, 255, 0, 0.6),
+              inset 0 0 20px rgba(127, 255, 0, 0.3);
+}
+
+.portal-loader-large .portal-center {
+  width: 70px;
+  height: 70px;
+}
+
+@keyframes rotateRing {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.portal-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, 
+    rgba(0, 255, 136, 0.9) 0%, 
+    rgba(57, 255, 20, 0.6) 50%, 
+    rgba(0, 255, 136, 0.3) 100%);
+  border-radius: 50%;
+  animation: portalGlow 1s ease-in-out infinite alternate;
+  box-shadow: 0 0 40px rgba(0, 255, 136, 0.9),
+              0 0 60px rgba(57, 255, 20, 0.6),
+              inset 0 0 30px rgba(0, 255, 136, 0.8);
+}
+
+@keyframes portalGlow {
+  from {
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.9),
+                0 0 60px rgba(57, 255, 20, 0.6),
+                inset 0 0 30px rgba(0, 255, 136, 0.8);
+  }
+  to {
+    box-shadow: 0 0 50px rgba(0, 255, 136, 1),
+                0 0 80px rgba(57, 255, 20, 0.8),
+                inset 0 0 40px rgba(0, 255, 136, 1);
+  }
+}
+
+.portal-particles {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: #00ff88;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform-origin: 0 0;
+  transform: rotate(var(--angle)) translate(0);
+  animation: particleOrbit 3s linear var(--delay) infinite;
+  box-shadow: 0 0 8px rgba(0, 255, 136, 0.8),
+              0 0 15px rgba(0, 255, 136, 0.5);
+}
+
+@keyframes particleOrbit {
+  0% {
+    transform: rotate(var(--angle)) translate(60px) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: rotate(var(--angle)) translate(100px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(var(--angle)) translate(60px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.loader-message {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  text-align: center;
+  animation: messagePulse 2s ease-in-out infinite;
+  background: linear-gradient(135deg, #00ff88 0%, #39ff14 50%, #00ff88 100%);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShift 3s ease infinite, messagePulse 2s ease-in-out infinite;
+}
+
+@keyframes messagePulse {
+  0%, 100% {
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loader-message {
+    font-size: 1rem;
+  }
+}
