@@ -1,4 +1,5 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import { useCharacters } from '../hooks/useCharacters';
 import { CharacterCard } from '../components/CharacterCard.tsx';
 import { SkeletonCard } from '../components/SkeletonCard';
@@ -13,6 +14,30 @@ export const CharacterListPage = () => {
   const genderFilter = searchParams.get('gender') || undefined;
   const nameFilter = searchParams.get('name') || undefined;
 
+  // Estado local para el input (no actualiza URL inmediatamente)
+  const [searchInput, setSearchInput] = useState(nameFilter || '');
+
+  // Sincronizar searchInput cuando nameFilter cambie externamente (navegación, etc)
+  useEffect(() => {
+    setSearchInput(nameFilter || '');
+  }, [nameFilter]);
+
+  // Debounce: actualizar URL solo después de 500ms sin escribir
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      const newParams = new URLSearchParams(searchParams);
+      if (searchInput) {
+        newParams.set('name', searchInput);
+        newParams.set('page', '1');
+      } else {
+        newParams.delete('name');
+      }
+      setSearchParams(newParams);
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [searchInput]); // Solo se ejecuta cuando searchInput cambia
+
   // Usar los filtros directamente en la API (incluyendo búsqueda por nombre)
   const { data, loading, error } = useCharacters({
     page,
@@ -21,17 +46,6 @@ export const CharacterListPage = () => {
     gender: genderFilter,
     name: nameFilter
   });
-
-  const handleSearch = (value: string) => {
-    const newParams = new URLSearchParams(searchParams);
-    if (value) {
-      newParams.set('name', value);
-      newParams.set('page', '1'); // Resetear a página 1 cuando se busca
-    } else {
-      newParams.delete('name');
-    }
-    setSearchParams(newParams);
-  };
 
   if (loading) {
     return (
@@ -80,8 +94,8 @@ export const CharacterListPage = () => {
         <input
           type="text"
           placeholder="🔍 Buscar personaje..."
-          value={nameFilter || ''}
-          onChange={(e) => handleSearch(e.target.value)}
+          value={searchInput}
+          onChange={(e) => setSearchInput(e.target.value)}
           style={{
             width: '100%',
             padding: '1rem 1.5rem',
