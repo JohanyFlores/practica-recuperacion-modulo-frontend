@@ -30,7 +30,7 @@ export const LoginPage = () => {
     <div className="login-page">
       {/* Nave de Rick moviéndose */}
       <div className="floating-ship">
-        <img src="/src/img/Nave_Rick.gif" alt="Rick's ship" />
+        <img src="/Nave_Rick.gif" alt="Rick's ship" />
       </div>
 
       <div className="login-container">
