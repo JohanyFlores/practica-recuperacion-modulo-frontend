@@ -4,6 +4,8 @@
 
 Aplicación web desarrollada con React, TypeScript y Vite que consume la API de Rick and Morty para mostrar y gestionar personajes.
 
+🚀 **Deploy automático:** [Ver app en GitHub Pages](https://johanyflores.github.io/practica-recuperacion-modulo-frontend/)
+
 ## 📋 Descripción del Proyecto
 
 Este proyecto fue desarrollado como práctica de recuperación del módulo de Frontend Frameworks. La aplicación permite:
