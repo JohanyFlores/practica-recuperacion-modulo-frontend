@@ -132,22 +132,25 @@ export const CharacterListPage = () => {
             padding: '1rem 2rem',
             fontSize: '1rem',
             fontWeight: 600,
-            background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
-            border: 'none',
+            background: 'rgba(34, 197, 94, 0.15)',
+            backdropFilter: 'blur(10px)',
+            border: '2px solid rgba(34, 197, 94, 0.3)',
             borderRadius: '12px',
-            color: 'white',
+            color: '#22c55e',
             cursor: 'pointer',
             transition: 'all 0.3s ease',
-            boxShadow: '0 4px 15px rgba(34, 197, 94, 0.3)',
+            boxShadow: '0 0 20px rgba(34, 197, 94, 0.3)',
             whiteSpace: 'nowrap'
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translateY(-2px)';
-            e.currentTarget.style.boxShadow = '0 6px 20px rgba(34, 197, 94, 0.4)';
+            e.currentTarget.style.boxShadow = '0 0 30px rgba(34, 197, 94, 0.5)';
+            e.currentTarget.style.borderColor = '#22c55e';
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translateY(0)';
-            e.currentTarget.style.boxShadow = '0 4px 15px rgba(34, 197, 94, 0.3)';
+            e.currentTarget.style.boxShadow = '0 0 20px rgba(34, 197, 94, 0.3)';
+            e.currentTarget.style.borderColor = 'rgba(34, 197, 94, 0.3)';
           }}
         >
           Buscar
