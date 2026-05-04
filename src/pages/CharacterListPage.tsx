@@ -155,19 +155,6 @@ export const CharacterListPage = () => {
         >
           Buscar
         </button>
-        {loading && (
-          <div style={{
-            position: 'absolute',
-            right: 'calc(2rem + 120px)', // Ajustado para el botón
-            top: '50%',
-            transform: 'translateY(-50%)',
-            color: '#22c55e',
-            fontSize: '1.2rem',
-            animation: 'spin 1s linear infinite'
-          }}>
-            ⚛️
-          </div>
-        )}
       </div>
 
       {/* Indicador de filtros activos */}
