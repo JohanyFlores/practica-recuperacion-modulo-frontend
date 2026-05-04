@@ -1,14 +1,11 @@
 name: CI/CD Pipeline
 
-# WORKFLOW TEMPORALMENTE DESACTIVADO
-# Se reactivará después de subir las configuraciones iniciales
-
 # Ejecutar el workflow en push a main y en pull requests
-# on:
-#   push:
-#     branches: [ main, master ]
-#   pull_request:
-#     branches: [ main, master ]
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
 
 # Permisos necesarios para deploy a GitHub Pages
 permissions:
