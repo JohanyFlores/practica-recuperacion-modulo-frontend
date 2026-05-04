@@ -162,14 +162,6 @@ export const HamburgerMenu = () => {
             </button>
           </div>
 
-          {/* Utilidades */}
-          <div className="menu-section">
-            <button className="menu-item" onClick={() => handleNavigation('/favorites')}>
-              <span className="menu-icon">⭐</span>
-              <span>Mis Favoritos</span>
-            </button>
-          </div>
-
           {/* Cerrar Sesión */}
           <div className="menu-section menu-section-logout">
             <button className="menu-item logout-item" onClick={handleLogout}>
