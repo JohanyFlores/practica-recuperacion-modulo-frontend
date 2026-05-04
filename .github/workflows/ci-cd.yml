@@ -33,11 +33,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: 'npm'
 
       # 3. Instalar dependencias
       - name: 📦 Install dependencies
-        run: npm install --prefer-offline
+        run: npm ci
 
       # 4. Ejecutar tests
       - name: 🧪 Run tests
