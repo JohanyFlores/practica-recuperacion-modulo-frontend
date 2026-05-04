@@ -1,0 +1,200 @@
+.character-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  overflow: visible;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+  position: relative;
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+  will-change: transform;
+}
+
+/* Staggered animation delay */
+.character-card:nth-child(1) { animation-delay: 0.1s; }
+.character-card:nth-child(2) { animation-delay: 0.2s; }
+.character-card:nth-child(3) { animation-delay: 0.3s; }
+.character-card:nth-child(4) { animation-delay: 0.4s; }
+.character-card:nth-child(5) { animation-delay: 0.5s; }
+.character-card:nth-child(6) { animation-delay: 0.6s; }
+.character-card:nth-child(7) { animation-delay: 0.7s; }
+.character-card:nth-child(8) { animation-delay: 0.8s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.character-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Partículas flotantes */
+.character-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: 
+    radial-gradient(circle, rgba(102, 126, 234, 0.8) 2px, transparent 2px),
+    radial-gradient(circle, rgba(118, 75, 162, 0.8) 2px, transparent 2px),
+    radial-gradient(circle, rgba(132, 204, 22, 0.8) 2px, transparent 2px),
+    radial-gradient(circle, rgba(251, 191, 36, 0.7) 1.5px, transparent 1.5px);
+  background-size: 60px 60px, 90px 90px, 75px 75px, 50px 50px;
+  background-position: 0 0, 40px 40px, 20px 20px, 10px 30px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 1;
+  animation: floatParticles 15s ease-in-out infinite;
+}
+
+@keyframes floatParticles {
+  0%, 100% {
+    background-position: 0 0, 40px 40px, 20px 20px;
+  }
+  50% {
+    background-position: 50px 50px, -10px -10px, 70px 10px;
+  }
+}
+
+.character-card:hover {
+  transform: scale(1.08) translateY(-10px) !important;
+  z-index: 50;
+  box-shadow: 0 30px 80px rgba(102, 126, 234, 0.5),
+              0 0 0 2px rgba(102, 126, 234, 0.3);
+  border-color: rgba(102, 126, 234, 0.6);
+}
+
+.character-card:hover::before {
+  opacity: 1;
+}
+
+.character-card:hover::after {
+  opacity: 0.9;
+}
+
+.character-card-image {
+  position: relative;
+  overflow: hidden;
+  height: 250px;
+  border-radius: 20px 20px 0 0;
+  isolation: isolate;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.character-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.character-card:hover .character-card-image img {
+  transform: scale(1.1);
+}
+
+.status-indicator {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.status-alive {
+  background: rgba(16, 185, 129, 0.9);
+  color: white;
+}
+
+.status-alive .status-dot {
+  background: white;
+}
+
+.status-dead {
+  background: rgba(239, 68, 68, 0.9);
+  color: white;
+}
+
+.status-dead .status-dot {
+  background: white;
+}
+
+.status-unknown {
+  background: rgba(107, 114, 128, 0.9);
+  color: white;
+}
+
+.status-unknown .status-dot {
+  background: white;
+}
+
+.character-card-content {
+  padding: 1.5rem;
+  border-radius: 0 0 20px 20px;
+  overflow: hidden;
+}
+
+.character-name {
+  font-size: 1.25rem;
+  margin: 0 0 1rem 0;
+  color: #2d3748;
+  font-weight: 700;
+}
+
+.character-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.character-details p {
+  margin: 0;
+  color: #718096;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.detail-icon {
+  font-size: 1rem;
+}
