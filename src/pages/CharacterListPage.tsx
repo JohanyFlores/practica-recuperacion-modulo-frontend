@@ -1,5 +1,5 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useCharacters } from '../hooks/useCharacters';
 import { CharacterCard } from '../components/CharacterCard.tsx';
 import { SkeletonCard } from '../components/SkeletonCard';
@@ -16,6 +16,7 @@ export const CharacterListPage = () => {
 
   // Estado local para el input (no actualiza URL inmediatamente)
   const [searchInput, setSearchInput] = useState(nameFilter || '');
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Sincronizar searchInput cuando nameFilter cambie externamente (navegación, etc)
   useEffect(() => {
@@ -32,7 +33,13 @@ export const CharacterListPage = () => {
       } else {
         newParams.delete('name');
       }
-      setSearchParams(newParams);
+      // Usar replace: true para evitar PortalTransition
+      setSearchParams(newParams, { replace: true });
+      
+      // Mantener foco en el input después de actualizar
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 0);
     }, 500);
 
     return () => clearTimeout(timer);
@@ -89,9 +96,11 @@ export const CharacterListPage = () => {
         marginBottom: '2rem',
         width: '100%',
         maxWidth: '600px',
-        margin: '0 auto 2rem'
+        margin: '0 auto 2rem',
+        position: 'relative'
       }}>
         <input
+          ref={searchInputRef}
           type="text"
           placeholder="🔍 Buscar personaje..."
           value={searchInput}
@@ -117,6 +126,19 @@ export const CharacterListPage = () => {
             e.target.style.boxShadow = 'none';
           }}
         />
+        {loading && (
+          <div style={{
+            position: 'absolute',
+            right: '1.5rem',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            color: '#22c55e',
+            fontSize: '1.2rem',
+            animation: 'spin 1s linear infinite'
+          }}>
+            ⚛️
+          </div>
+        )}
       </div>
 
       {/* Indicador de filtros activos */}
